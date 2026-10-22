@@ -12,27 +12,21 @@ export type QuickAction = { icon: string; label: string; href: string };
 export type BranchCardData = {
   index: string; // "01"
   anchorId: string; // "unity-motor"
-  eyebrowEn: string;
-  eyebrowHi: string;
   title: string;
   locTag: string;
   mapsUrl: string;
   statusTag: string;
-  bayIdValue: string;
-  subtitleEn: string;
-  subtitleHi: string;
-  liveTagText: string;
-  roomTagText: string;
   image: { src: string; alt: string };
   imageTags: Array<{ text: string; accent?: boolean }>;
   isoFigure?: ReactNode;
   description: string;
   actions?: QuickAction[];
-  cta: { titleEn: string; sub: string; tagText: string; onClick?: () => void; href?: string };
-  rating: string;
-  reviewCountLabel: string;
-  reviewLink: string;
-  reviews: Review[];
+  cta: { titleEn: string; sub: string; tagText: string; href: string };
+  phone?: { display: string; href: string };
+  rating?: string;
+  reviewCountLabel?: string;
+  reviewLink?: string;
+  reviews?: Review[];
   socials: Social[];
   footerLeft: string;
   footerRight: string;
@@ -40,7 +34,7 @@ export type BranchCardData = {
 
 export default function BranchCard({ data, id = data.anchorId }: { data: BranchCardData; id?: string }) {
   const [reviewIdx, setReviewIdx] = useState(0);
-  const reviews = data.reviews;
+  const reviews = data.reviews ?? [];
 
   function prevReview() {
     setReviewIdx((i) => (i - 1 + reviews.length) % reviews.length);
@@ -52,25 +46,15 @@ export default function BranchCard({ data, id = data.anchorId }: { data: BranchC
 
   return (
     <section id={id} className="relative w-full px-margin-mobile lg:px-margin bg-surface-container-lowest scroll-mt-28">
-      <div className="w-full flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+      <div className="w-full flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
         <div>
-          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-primary-container font-label-sm text-label-sm uppercase tracking-widest font-black">
-            <span className="w-3 h-3 bg-primary-container self-center shrink-0"></span>
-            <span style={{ fontFamily: "Teko, sans-serif", fontWeight: 700, fontSize: "clamp(1rem, 4vw, 1.35rem)", lineHeight: 1.1, letterSpacing: "0.04em" }}>
-              {data.eyebrowEn}
-            </span>
-            <span className="text-[10px] normal-case tracking-normal text-on-surface-variant/60 font-sans">{data.eyebrowHi}</span>
-          </div>
-          <h2
-            className="font-headline-lg uppercase text-on-surface mt-1.5"
-            style={{ fontFamily: "Teko, sans-serif", fontWeight: 700, letterSpacing: "0.02em", lineHeight: 0.95, fontSize: "clamp(2.25rem, 9vw, 4rem)" }}
-          >
+          <h2 className="font-headline-lg uppercase text-on-surface font-extrabold tracking-tight" style={{ fontSize: "clamp(2.25rem, 9vw, 4rem)", lineHeight: 0.98 }}>
             {data.title}
           </h2>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <a
-            className="flex items-center gap-1.5 font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary-container transition-colors group"
+            className="flex items-center gap-1.5 font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant hover:text-on-surface transition-colors group"
             href={data.mapsUrl}
             rel="noopener"
             target="_blank"
@@ -79,48 +63,17 @@ export default function BranchCard({ data, id = data.anchorId }: { data: BranchC
             <span className="material-symbols-outlined text-base group-hover:scale-110 transition-transform">location_on</span>
             {data.locTag}
           </a>
-          <span className="px-2.5 py-1 bg-surface-container-highest text-primary font-label-sm text-label-sm font-bold">
-            {data.statusTag}
-          </span>
+          <span className="px-3 py-1 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm font-bold">{data.statusTag}</span>
         </div>
       </div>
 
-      <div className="w-full bg-surface-container border-2 border-surface-container-highest shadow-[8px_8px_0px_#ff544b] relative overflow-hidden">
-        <div className="w-full bg-surface-container-high px-4 sm:px-6 py-3 sm:py-4 border-b-2 border-surface-container-highest flex flex-wrap items-center justify-between gap-3 sm:gap-4">
-          <div className="flex flex-wrap items-center gap-2 sm:gap-4">
-            <span className="px-2 py-0.5 bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase font-black shrink-0">
-              {data.bayIdValue}
-            </span>
-            <span className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-              <span
-                className="text-on-surface uppercase tracking-wider font-bold"
-                style={{ fontFamily: "Teko, sans-serif", fontWeight: 700, fontSize: "clamp(1.1rem, 4.5vw, 1.5rem)", lineHeight: 1.1 }}
-              >
-                {data.subtitleEn}
-              </span>
-              <span className="text-[10px] normal-case tracking-normal text-on-surface-variant/60 font-sans">{data.subtitleHi}</span>
-            </span>
-          </div>
-          <div className="flex items-center gap-4 font-label-sm text-label-sm text-on-surface-variant">
-            <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-primary-container"></span> {data.liveTagText}
-            </span>
-            <span className="hidden sm:inline">{data.roomTagText}</span>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[560px]">
-          <div className="lg:col-span-7 p-5 sm:p-10 relative bg-surface border-b-2 lg:border-b-0 lg:border-r-2 border-surface-container-highest">
-            <a
-              href={data.mapsUrl}
-              rel="noopener"
-              target="_blank"
-              title="Open in Google Maps"
-              className="relative block w-full h-full min-h-[440px] overflow-hidden border border-surface-container-highest group"
-            >
+      <div className="w-full bg-surface-container-low rounded-[24px] shadow-[0_20px_50px_rgba(0,0,0,0.35)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.75)] relative overflow-hidden p-5 sm:p-8 md:p-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          <div className="lg:col-span-7 h-80 sm:h-96 lg:h-[480px] w-full rounded-xl overflow-hidden relative group">
+            <a href={data.mapsUrl} rel="noopener" target="_blank" title="Open in Google Maps" className="absolute inset-0 block">
               {data.image.src ? (
                 <Image
-                  className="object-cover grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
                   fill
                   sizes="(min-width: 1024px) 50vw, 100vw"
                   alt={data.image.alt}
@@ -132,11 +85,9 @@ export default function BranchCard({ data, id = data.anchorId }: { data: BranchC
                   <span className="font-label-sm text-label-sm uppercase tracking-wider">Business photos pending</span>
                 </div>
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-90"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
               {data.isoFigure && (
-                <div className="hidden md:block absolute bottom-4 left-4 w-32 opacity-80 pointer-events-none select-none">
-                  {data.isoFigure}
-                </div>
+                <div className="hidden md:block absolute bottom-4 left-4 w-32 opacity-80 pointer-events-none select-none">{data.isoFigure}</div>
               )}
               <div className="absolute top-4 left-4 right-4 flex flex-col items-start gap-1.5">
                 {data.imageTags.map((tag, i) => (
@@ -144,142 +95,136 @@ export default function BranchCard({ data, id = data.anchorId }: { data: BranchC
                     key={i}
                     className={
                       tag.accent
-                        ? "max-w-full px-3 py-1 bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase font-black"
-                        : "max-w-full px-3 py-1 bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm uppercase font-bold border border-surface-container-highest"
+                        ? "max-w-full px-3 py-1 rounded-full bg-white text-black font-label-sm text-label-sm uppercase font-black"
+                        : "max-w-full px-3 py-1 rounded-full bg-black/60 backdrop-blur-md text-white font-label-sm text-label-sm uppercase font-bold"
                     }
                   >
                     {tag.text}
                   </span>
                 ))}
               </div>
-              <div className="absolute bottom-4 right-4 flex items-center gap-1.5 px-3 py-1.5 bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm uppercase font-bold border border-surface-container-highest opacity-0 group-hover:opacity-100 transition-opacity">
-                <span className="material-symbols-outlined text-base">location_on</span>
-                VIEW ON MAP
+              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between text-white/90 font-label-sm text-label-sm tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity">
+                <span>{data.locTag}</span>
+                <span className="flex items-center gap-1.5">
+                  <span className="material-symbols-outlined text-base">open_in_new</span>
+                  VIEW ON MAP
+                </span>
               </div>
             </a>
           </div>
 
-          <div className="lg:col-span-5 p-5 sm:p-10 flex flex-col justify-center bg-surface-container">
-            <div className="flex items-center justify-between pb-4 border-b border-surface-container-highest mb-6">
-              <span className="font-label-sm text-label-sm uppercase tracking-widest text-primary-container font-black">
-                [ DIRECT ACCESS CONSOLE ]
-              </span>
-              <span className="font-label-sm text-label-sm text-on-surface-variant">ONLINE 24/7</span>
+          <div className="lg:col-span-5 flex flex-col justify-between h-full space-y-6">
+            <div>
+              <p className="font-body-md text-on-surface-variant leading-relaxed text-base">{data.description}</p>
             </div>
-            <p className="font-body-md text-body-md text-on-surface-variant mb-8 leading-relaxed">{data.description}</p>
 
-            <div className="space-y-5">
-              {data.actions && data.actions.length > 0 && (
-                <div className={`grid gap-3 ${data.actions.length >= 3 ? "grid-cols-1 sm:grid-cols-3" : "grid-cols-1 sm:grid-cols-2"}`}>
-                  {data.actions.map((action, i) => (
-                    <a
-                      key={i}
-                      href={action.href}
-                      rel="noopener"
-                      target="_blank"
-                      className="group p-3 bg-surface border-2 border-surface-container-highest hover:border-primary-container shadow-[3px_3px_0px_var(--ink)] hover:shadow-[3px_3px_0px_#ff544b] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all flex flex-col items-center justify-center gap-1.5 text-center py-4"
-                    >
-                      <span className="material-symbols-outlined text-primary-container text-xl group-hover:scale-110 transition-transform">
-                        {action.icon}
-                      </span>
-                      <span className="font-label-sm text-label-sm uppercase font-bold text-on-surface">{action.label}</span>
-                    </a>
-                  ))}
-                </div>
-              )}
-
-              {(() => {
-                const CtaInner = (
-                  <>
-                    <div className="flex items-center gap-3 min-w-0">
-                      <span className="material-symbols-outlined text-2xl shrink-0 group-hover:rotate-12 transition-transform">calendar_month</span>
-                      <div className="min-w-0">
-                        <div
-                          className="font-headline-sm font-black uppercase tracking-tight"
-                          style={{ fontFamily: "Teko, sans-serif", fontWeight: 700, letterSpacing: "0.04em", fontSize: "clamp(1.4rem, 6vw, 2rem)", lineHeight: 1.05 }}
-                        >
-                          {data.cta.titleEn}
-                        </div>
-                        <div className="font-label-sm text-label-sm uppercase tracking-wider text-on-primary-container/80">{data.cta.sub}</div>
-                      </div>
-                    </div>
-                    <span className="shrink-0 font-label-md text-label-md uppercase font-black bg-on-primary-container text-primary-container px-3 py-1">
-                      {data.cta.tagText}
-                    </span>
-                  </>
-                );
-                const ctaClass =
-                  "w-full p-4 sm:p-5 bg-primary-container text-on-primary-container border-2 border-on-surface shadow-[4px_4px_0px_var(--ink)] hover:shadow-[4px_4px_0px_#ff544b] hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-none transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-left group";
-                return data.cta.onClick ? (
-                  <button className={ctaClass} type="button" onClick={data.cta.onClick}>
-                    {CtaInner}
-                  </button>
-                ) : (
-                  <a className={ctaClass} href={data.cta.href ?? "#"} rel="noopener" target="_blank">
-                    {CtaInner}
-                  </a>
-                );
-              })()}
-
-              <div className="bg-surface p-5 border-2 border-surface-container-highest flex flex-col gap-3">
-                <div className="flex items-center justify-between flex-wrap gap-2">
-                  <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 bg-yellow-400 text-black font-label-sm text-label-sm font-black">{data.rating}</span>
-                    <span className="font-label-sm text-label-sm text-on-surface uppercase font-bold">{data.reviewCountLabel}</span>
-                  </div>
+            {data.actions && data.actions.length > 0 && (
+              <div className={`grid gap-3 ${data.actions.length >= 3 ? "grid-cols-1 sm:grid-cols-3" : "grid-cols-1 sm:grid-cols-2"}`}>
+                {data.actions.map((action, i) => (
                   <a
-                    className="text-primary hover:underline font-label-sm text-label-sm uppercase font-bold flex items-center gap-1"
-                    href={data.reviewLink}
+                    key={i}
+                    href={action.href}
                     rel="noopener"
                     target="_blank"
+                    className="group p-3 rounded-xl bg-surface-container hover:bg-surface-container-high transition-colors flex flex-col items-center justify-center gap-1.5 text-center py-4"
                   >
-                    WRITE REVIEW <span className="material-symbols-outlined text-xs">open_in_new</span>
+                    <span className="material-symbols-outlined text-on-surface text-xl group-hover:scale-110 transition-transform">{action.icon}</span>
+                    <span className="font-label-sm text-label-sm uppercase font-bold text-on-surface">{action.label}</span>
                   </a>
+                ))}
+              </div>
+            )}
+
+            <a
+              className="w-full p-4 sm:p-5 rounded-2xl bg-on-surface text-surface shadow-lg shadow-black/20 hover:-translate-y-0.5 active:translate-y-0 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-left"
+              href={data.cta.href}
+              rel="noopener"
+              target="_blank"
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <span className="material-symbols-outlined text-2xl shrink-0">calendar_month</span>
+                <div className="min-w-0">
+                  <div className="font-headline-sm font-black uppercase tracking-tight" style={{ fontSize: "clamp(1.3rem, 6vw, 1.75rem)", lineHeight: 1.05 }}>
+                    {data.cta.titleEn}
+                  </div>
+                  <div className="font-label-sm text-label-sm uppercase tracking-wider text-surface/70">{data.cta.sub}</div>
                 </div>
-                <div className="bg-surface-container-high p-4 border-l-4 border-primary-container transition-all duration-300">
-                  <p className="font-body-sm text-body-sm text-on-surface italic">{reviews[reviewIdx].quote}</p>
+              </div>
+              <span className="shrink-0 font-label-md text-label-md uppercase font-black bg-surface/10 text-surface px-3 py-1.5 rounded-full">
+                {data.cta.tagText}
+              </span>
+            </a>
+
+            {data.phone && (
+              <a
+                className="group flex items-center justify-between p-4 rounded-2xl bg-surface-container hover:bg-surface-container-high transition-colors"
+                href={data.phone.href}
+              >
+                <span className="flex items-center gap-2 font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">
+                  <span className="material-symbols-outlined text-lg text-on-surface">call</span>
+                  Call Direct
+                </span>
+                <span className="font-headline-sm font-bold text-on-surface tracking-wide text-base sm:text-lg group-hover:underline">{data.phone.display}</span>
+              </a>
+            )}
+
+            {reviews.length > 0 && (
+              <div className="bg-surface-container rounded-2xl p-5 flex flex-col gap-3">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <div className="flex items-center gap-2">
+                    {data.rating && <span className="px-2.5 py-1 rounded-full bg-yellow-400 text-black font-label-sm text-label-sm font-black">{data.rating}</span>}
+                    {data.reviewCountLabel && <span className="font-label-sm text-label-sm text-on-surface uppercase font-bold">{data.reviewCountLabel}</span>}
+                  </div>
+                  {data.reviewLink && (
+                    <a className="text-on-surface hover:underline font-label-sm text-label-sm uppercase font-bold flex items-center gap-1" href={data.reviewLink} rel="noopener" target="_blank">
+                      WRITE REVIEW <span className="material-symbols-outlined text-xs">open_in_new</span>
+                    </a>
+                  )}
+                </div>
+                <div className="bg-surface-container-high rounded-xl p-4 transition-all duration-300">
+                  <p className="font-body-sm text-on-surface italic">{reviews[reviewIdx].quote}</p>
                   <div className="flex items-center justify-between mt-3 pt-3 border-t border-surface-container-highest">
-                    <span className="font-label-sm text-label-sm text-primary-container uppercase font-bold">
-                      {reviews[reviewIdx].author}
-                    </span>
-                    <div className="flex items-center gap-1">
-                      <button className="px-1.5 py-0.5 bg-surface hover:bg-surface-bright text-on-surface text-xs font-bold font-mono" onClick={prevReview}>
-                        &lt;
-                      </button>
-                      <button className="px-1.5 py-0.5 bg-surface hover:bg-surface-bright text-on-surface text-xs font-bold font-mono" onClick={nextReview}>
-                        &gt;
-                      </button>
-                    </div>
+                    <span className="font-label-sm text-label-sm text-on-surface uppercase font-bold">{reviews[reviewIdx].author}</span>
+                    {reviews.length > 1 && (
+                      <div className="flex items-center gap-1">
+                        <button className="w-6 h-6 rounded-full bg-surface hover:bg-surface-bright text-on-surface text-xs font-bold flex items-center justify-center" onClick={prevReview}>
+                          &lt;
+                        </button>
+                        <button className="w-6 h-6 rounded-full bg-surface hover:bg-surface-bright text-on-surface text-xs font-bold flex items-center justify-center" onClick={nextReview}>
+                          &gt;
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
+            )}
 
-              {data.socials.length > 0 && (
-                <div className={`grid gap-4 ${data.socials.length >= 2 ? "grid-cols-2" : "grid-cols-1"}`}>
-                  {data.socials.map((s, i) => (
-                    <a
-                      key={i}
-                      className="group p-3 bg-surface border border-surface-container-highest hover:border-primary flex items-center justify-between transition-colors"
-                      href={s.href}
-                      rel="noopener"
-                      target="_blank"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className="material-symbols-outlined text-primary text-xl">{s.icon}</span>
-                        <span className="font-label-sm text-label-sm text-on-surface uppercase font-bold group-hover:text-primary">{s.label}</span>
-                      </div>
-                      <span className="font-label-sm text-label-sm text-on-surface-variant font-mono">{s.value}</span>
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
+            {data.socials.length > 0 && (
+              <div className={`grid gap-4 ${data.socials.length >= 2 ? "grid-cols-2" : "grid-cols-1"}`}>
+                {data.socials.map((s, i) => (
+                  <a
+                    key={i}
+                    className="group p-3 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-between transition-colors"
+                    href={s.href}
+                    rel="noopener"
+                    target="_blank"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="material-symbols-outlined text-on-surface text-xl">{s.icon}</span>
+                      <span className="font-label-sm text-label-sm text-on-surface uppercase font-bold">{s.label}</span>
+                    </div>
+                    <span className="font-label-sm text-label-sm text-on-surface-variant">{s.value}</span>
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
-        <div className="pt-4 pb-5 px-6 border-t border-surface-container-highest flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+        <div className="pt-6 mt-6 border-t border-surface-container-high flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
           <span>{data.footerLeft}</span>
-          <span className="font-mono text-primary">{data.footerRight}</span>
+          <span className="text-on-surface">{data.footerRight}</span>
         </div>
       </div>
     </section>

@@ -1,13 +1,21 @@
 "use client";
 
 import { useLenis } from "lenis/react";
-import { computeNavScrollTarget } from "./branchAnchors";
+import { computeNavScrollTarget, computeIdScrollTarget } from "./branchAnchors";
 
 const BRANCH_LINKS = [
-  { path: "unity-motor", label: "01 // MOTOR" },
-  { path: "unity-carhub", label: "02 // CARHUB" },
-  { path: "shawarma-cartel", label: "03 // CARTEL" },
-  { path: "bhatia-homeopathics", label: "04 // BHATIA" },
+  { path: "unity-motor", label: "Unity Motor" },
+  { path: "unity-carhub", label: "Unity CarHub" },
+  { path: "shawarma-cartel", label: "Shawarma Cartel" },
+  { path: "bhatia-homeopathics", label: "Dr. Bhatia Homeopathics" },
+  { path: "unity-tech", label: "Unity Tech" },
+];
+
+// Not part of the scroll-hijacking stack, so they're reached by plain id
+// lookup rather than the stack-progress math in computeNavScrollTarget.
+const COMING_SOON_LINKS = [
+  { path: "unity-law", label: "Unity Law (Coming Soon)" },
+  { path: "unity-estates", label: "Unity Estates (Coming Soon)" },
 ];
 
 export default function Footer() {
@@ -21,56 +29,83 @@ export default function Footer() {
     else window.scrollTo({ top: target, behavior: "smooth" });
   }
 
+  function goToSection(e: React.MouseEvent, id: string) {
+    e.preventDefault();
+    const target = computeIdScrollTarget(id, 0);
+    if (target == null) return;
+    if (lenis) lenis.scrollTo(target, { duration: 1.2 });
+    else window.scrollTo({ top: target, behavior: "smooth" });
+  }
+
   return (
-    <footer id="footer" className="w-full bg-surface-container-lowest border-t-2 border-surface-container-highest scroll-mt-28">
-      <div className="w-full bg-surface-container-low border-b border-surface-container-highest px-margin-mobile lg:px-margin py-4 flex flex-wrap items-center justify-between gap-space-sm">
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 bg-primary-container animate-ping"></span>
-          <span className="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">
-            BRANCH NAVIGATOR // MATRIX 04
-          </span>
-        </div>
-        <div className="flex items-center gap-1 sm:gap-space-sm overflow-x-auto">
-          {BRANCH_LINKS.map((link) => (
-            <a
-              key={link.path}
-              className="px-3 py-1 bg-surface-container border border-surface-container-highest text-on-surface-variant hover:text-on-surface hover:border-primary-container font-label-sm text-label-sm uppercase tracking-wider transition-colors"
-              href={`#${link.path}`}
-              onClick={(e) => goToBranch(e, link.path)}
-            >
-              {link.label}
+    <footer id="footer" className="w-full bg-surface-container-lowest pt-20 pb-16 px-margin-mobile lg:px-margin scroll-mt-28">
+      <div className="max-w-7xl mx-auto flex flex-col space-y-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-12 border-b border-surface-container-high">
+          <div className="max-w-3xl">
+            <span className="text-on-surface-variant font-label-md text-label-md uppercase tracking-widest block mb-4">// Manifesto</span>
+            <h2 className="font-headline-lg text-4xl sm:text-5xl md:text-6xl font-extrabold text-on-surface tracking-tight leading-[1.05]">
+              Automotive engineering.
+              <br />
+              Digital exchanges.
+              <br />
+              Gastronomic culture.
+            </h2>
+          </div>
+          <div className="flex flex-col gap-2">
+            <span className="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant">Direct Contact</span>
+            <a className="text-on-surface font-body-md text-base hover:underline w-fit" href="https://wa.me/917027900004" rel="noopener" target="_blank">
+              +91 70279 00004 (WhatsApp)
             </a>
-          ))}
+            <a className="inline-flex items-center gap-1.5 text-on-surface font-body-md text-base hover:underline w-fit" href="tel:+917710777775">
+              <span className="material-symbols-outlined text-base">call</span>
+              +91 77107 77775 (Call for any issue)
+            </a>
+            <span className="font-label-sm text-label-sm text-on-surface-variant">All branches, one line</span>
+          </div>
         </div>
-        <div className="font-label-sm text-label-sm text-on-surface-variant">[ SEC_LVL: 00 ]</div>
-      </div>
-      <div className="w-full px-margin-mobile lg:px-margin py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-space-lg">
-        <div className="flex flex-col gap-2">
-          <span
-            className="font-headline-sm text-headline-sm tracking-tight text-on-surface uppercase"
-            style={{ fontFamily: "Teko, sans-serif", fontWeight: 700, letterSpacing: "0.03em", fontSize: "2rem", lineHeight: 1 }}
-          >
-            UNITY HOLDING GROUP CORP.
-          </span>
-          <span className="font-body-sm text-body-sm text-on-surface-variant">
-            AUTOMOTIVE ENGINEERING // DIGITAL EXCHANGES // GASTRONOMIC CULTURE
-          </span>
-          {/* Real contact number pulled from the unity-motors repo (NEXT_PUBLIC_WHATSAPP_NUMBER) —
-              no verified email exists anywhere in that project, so none is shown here. */}
-          <a
-            className="mt-2 inline-flex items-center gap-1.5 text-primary hover:underline font-label-sm text-label-sm uppercase font-bold w-fit"
-            href="https://wa.me/917027900004"
-            rel="noopener"
-            target="_blank"
-          >
-            <span className="material-symbols-outlined text-sm">chat</span>
-            +91 70279 00004 (WHATSAPP)
-          </a>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
+          <div className="flex flex-col space-y-3">
+            <span className="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant font-bold">Branch Navigator</span>
+            {BRANCH_LINKS.map((link) => (
+              <a
+                key={link.path}
+                className="text-on-surface hover:text-on-surface-variant font-body-md text-base transition-colors duration-200 w-fit"
+                href={`#${link.path}`}
+                onClick={(e) => goToBranch(e, link.path)}
+              >
+                {link.label}
+              </a>
+            ))}
+            {COMING_SOON_LINKS.map((link) => (
+              <a
+                key={link.path}
+                className="text-on-surface-variant hover:text-on-surface font-body-md text-base transition-colors duration-200 w-fit"
+                href={`#${link.path}`}
+                onClick={(e) => goToSection(e, link.path)}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          <div className="flex flex-col space-y-3">
+            <span className="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant font-bold">What We Do</span>
+            <span className="text-on-surface font-body-md text-base">Automotive Engineering</span>
+            <span className="text-on-surface font-body-md text-base">Digital Exchanges</span>
+            <span className="text-on-surface font-body-md text-base">Gastronomic Culture</span>
+          </div>
+
+          <div className="flex flex-col space-y-3">
+            <span className="font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant font-bold">Legal</span>
+            <span className="text-on-surface-variant font-body-md text-base">Privacy Manifesto — Coming Soon</span>
+            <span className="text-on-surface-variant font-body-md text-base">Telemetry Terms — Coming Soon</span>
+          </div>
         </div>
-        <div className="flex flex-wrap items-center gap-space-lg font-label-sm text-label-sm text-on-surface-variant">
-          <span className="uppercase text-on-surface-variant/70">[ PRIVACY_MANIFESTO: COMING SOON ]</span>
-          <span className="uppercase text-on-surface-variant/70">[ TELEMETRY_TERMS: COMING SOON ]</span>
-          <span className="text-on-surface-variant">© 2025 UNITY GROUP ALL RIGHTS RESERVED.</span>
+
+        <div className="flex flex-col sm:flex-row items-center justify-between pt-8 border-t border-surface-container-high text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider gap-4">
+          <span>© 2025 Unity Group. All Rights Reserved.</span>
+          <span>Unity Holding Group Corp.</span>
         </div>
       </div>
     </footer>

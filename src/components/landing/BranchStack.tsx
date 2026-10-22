@@ -1,10 +1,10 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { motion, useTransform, useScroll, type MotionValue } from "framer-motion";
 import BranchCard, { type BranchCardData } from "./BranchCard";
+import ComingSoonCard from "./ComingSoonCard";
 import { buildBranchData } from "./branchData";
-import InquiryModal, { type InquiryModalConfig } from "./InquiryModal";
 import { BRANCH_TRACK_ID } from "./branchAnchors";
 
 const PEEK_PX = 30; // vertical step so every settled card's header still peeks above the next
@@ -51,8 +51,7 @@ function StackedCard({
 }
 
 export default function BranchStack() {
-  const [activeModal, setActiveModal] = useState<InquiryModalConfig | null>(null);
-  const branches = buildBranchData((config) => setActiveModal(config));
+  const branches = buildBranchData();
   const trackRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: trackRef, offset: ["start start", "end end"] });
 
@@ -87,7 +86,12 @@ export default function BranchStack() {
         </div>
       </div>
 
-      <InquiryModal config={activeModal} onClose={() => setActiveModal(null)} />
+      {/* Smaller "coming soon" divisions — not part of the scroll-hijacking
+          stack above, just two plain cards sitting after it. */}
+      <div className="w-full px-margin-mobile lg:px-margin bg-surface-container-lowest pt-4 pb-4 grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <ComingSoonCard id="unity-law" title="Unity Law" />
+        <ComingSoonCard id="unity-estates" title="Unity Estates" />
+      </div>
     </>
   );
 }

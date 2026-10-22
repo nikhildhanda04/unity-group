@@ -4,7 +4,7 @@
 // to land on. This computes the scroll offset that brings a given branch to
 // the front of the stack, so nav links can scroll there explicitly.
 
-export const BRANCH_ANCHORS = ["unity-motor", "unity-carhub", "shawarma-cartel", "bhatia-homeopathics"] as const;
+export const BRANCH_ANCHORS = ["unity-motor", "unity-carhub", "shawarma-cartel", "bhatia-homeopathics", "unity-tech"] as const;
 export type BranchAnchor = (typeof BRANCH_ANCHORS)[number];
 
 export const BRANCH_TRACK_ID = "branch-stack-track";
