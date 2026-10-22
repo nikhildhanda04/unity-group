@@ -1,26 +1,302 @@
 @import "tailwindcss";
 
+@theme {
+  /* === Unity Group design system tokens (see design-reference.html) === */
+  /* Every color below is an indirection onto a --c-* custom property so the
+     same utility classes work in both themes — see the :root / .dark blocks
+     further down for the actual light/dark values. */
+
+  --color-surface-container-high: var(--c-surface-container-high);
+  --color-on-tertiary-fixed: var(--c-on-tertiary-fixed);
+  --color-secondary-fixed-dim: var(--c-secondary-fixed-dim);
+  --color-tertiary: var(--c-tertiary);
+  --color-error-container: var(--c-error-container);
+  --color-surface-container-lowest: var(--c-surface-container-lowest);
+  --color-surface-bright: var(--c-surface-bright);
+  --color-surface: var(--c-surface);
+  --color-secondary: var(--c-secondary);
+  --color-primary-container: var(--c-primary-container);
+  --color-on-error-container: var(--c-on-error-container);
+  --color-inverse-primary: var(--c-inverse-primary);
+  --color-on-tertiary: var(--c-on-tertiary);
+  --color-error: var(--c-error);
+  --color-surface-variant: var(--c-surface-variant);
+  --color-surface-container: var(--c-surface-container);
+  --color-surface-dim: var(--c-surface-dim);
+  --color-primary-fixed: var(--c-primary-fixed);
+  --color-on-primary: var(--c-on-primary);
+  --color-on-secondary-container: var(--c-on-secondary-container);
+  --color-inverse-on-surface: var(--c-inverse-on-surface);
+  --color-background: var(--c-background);
+  --color-inverse-surface: var(--c-inverse-surface);
+  --color-on-secondary-fixed: var(--c-on-secondary-fixed);
+  --color-on-primary-fixed-variant: var(--c-on-primary-fixed-variant);
+  --color-secondary-fixed: var(--c-secondary-fixed);
+  --color-on-error: var(--c-on-error);
+  --color-tertiary-container: var(--c-tertiary-container);
+  --color-on-secondary: var(--c-on-secondary);
+  --color-on-primary-fixed: var(--c-on-primary-fixed);
+  --color-on-tertiary-fixed-variant: var(--c-on-tertiary-fixed-variant);
+  --color-on-primary-container: var(--c-on-primary-container);
+  --color-on-background: var(--c-on-background);
+  --color-primary-fixed-dim: var(--c-primary-fixed-dim);
+  --color-primary: var(--c-primary);
+  --color-surface-tint: var(--c-surface-tint);
+  --color-surface-container-low: var(--c-surface-container-low);
+  --color-on-tertiary-container: var(--c-on-tertiary-container);
+  --color-secondary-container: var(--c-secondary-container);
+  --color-outline-variant: var(--c-outline-variant);
+  --color-outline: var(--c-outline);
+  --color-surface-container-highest: var(--c-surface-container-highest);
+  --color-on-surface: var(--c-on-surface);
+  --color-on-surface-variant: var(--c-on-surface-variant);
+  --color-tertiary-fixed-dim: var(--c-tertiary-fixed-dim);
+  --color-on-secondary-fixed-variant: var(--c-on-secondary-fixed-variant);
+  --color-tertiary-fixed: var(--c-tertiary-fixed);
+
+  /* Radius */
+  --radius-DEFAULT: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+
+  /* Spacing (named, used alongside the numeric scale) */
+  --spacing-space-sm: 0.5rem;
+  --spacing-margin-mobile: 1rem;
+  --spacing-gutter: 1.5rem;
+  --spacing-gutter-mobile: 0.75rem;
+  --spacing-margin: 3rem;
+  --spacing-space-lg: 1.5rem;
+  --spacing-space-xs: 0.25rem;
+  --spacing-space-xl: 2.5rem;
+  --spacing-space-md: 1rem;
+
+  /* Font families */
+  --font-headline-lg: "Syne", sans-serif;
+  --font-headline-md: "Syne", sans-serif;
+  --font-body-md: "Hanken Grotesk", sans-serif;
+  --font-display-xl-mobile: "Syne", sans-serif;
+  --font-label-lg: "Space Grotesk", sans-serif;
+  --font-body-lg: "Hanken Grotesk", sans-serif;
+  --font-label-md: "Space Grotesk", sans-serif;
+  --font-label-sm: "Space Grotesk", sans-serif;
+  --font-display-xl: "Syne", sans-serif;
+  --font-body-sm: "Hanken Grotesk", sans-serif;
+  --font-headline-sm: "Syne", sans-serif;
+  --font-headline-lg-mobile: "Syne", sans-serif;
+  --font-teko: "Teko", sans-serif;
+
+  /* Font sizes (size / line-height / letter-spacing / weight) */
+  --text-headline-lg: 56px;
+  --text-headline-lg--line-height: 58px;
+  --text-headline-lg--letter-spacing: -0.04em;
+  --text-headline-lg--font-weight: 800;
+
+  --text-headline-md: 32px;
+  --text-headline-md--line-height: 36px;
+  --text-headline-md--letter-spacing: -0.03em;
+  --text-headline-md--font-weight: 700;
+
+  --text-body-md: 15px;
+  --text-body-md--line-height: 22px;
+  --text-body-md--letter-spacing: 0em;
+  --text-body-md--font-weight: 400;
+
+  --text-display-xl-mobile: 52px;
+  --text-display-xl-mobile--line-height: 50px;
+  --text-display-xl-mobile--letter-spacing: -0.04em;
+  --text-display-xl-mobile--font-weight: 800;
+
+  --text-label-lg: 14px;
+  --text-label-lg--line-height: 16px;
+  --text-label-lg--letter-spacing: 0.06em;
+  --text-label-lg--font-weight: 700;
+
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 26px;
+  --text-body-lg--letter-spacing: -0.01em;
+  --text-body-lg--font-weight: 500;
+
+  --text-label-md: 12px;
+  --text-label-md--line-height: 14px;
+  --text-label-md--letter-spacing: 0.08em;
+  --text-label-md--font-weight: 600;
+
+  --text-label-sm: 10px;
+  --text-label-sm--line-height: 12px;
+  --text-label-sm--letter-spacing: 0.1em;
+  --text-label-sm--font-weight: 700;
+
+  --text-display-xl: 96px;
+  --text-display-xl--line-height: 92px;
+  --text-display-xl--letter-spacing: -0.05em;
+  --text-display-xl--font-weight: 800;
+
+  --text-body-sm: 13px;
+  --text-body-sm--line-height: 18px;
+  --text-body-sm--letter-spacing: 0em;
+  --text-body-sm--font-weight: 400;
+
+  --text-headline-sm: 24px;
+  --text-headline-sm--line-height: 28px;
+  --text-headline-sm--letter-spacing: -0.02em;
+  --text-headline-sm--font-weight: 700;
+
+  --text-headline-lg-mobile: 36px;
+  --text-headline-lg-mobile--line-height: 38px;
+  --text-headline-lg-mobile--letter-spacing: -0.03em;
+  --text-headline-lg-mobile--font-weight: 800;
+}
+
+/* ============ Light theme (default) ============ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --c-surface-container-high: #e6e2dc;
+  --c-on-tertiary-fixed: #410004;
+  --c-secondary-fixed-dim: #c9c6c5;
+  --c-tertiary: #a8362f;
+  --c-error-container: #ffdad6;
+  --c-surface-container-lowest: #ffffff;
+  --c-surface-bright: #ffffff;
+  --c-surface: #ffffff;
+  --c-secondary: #5c4a40;
+  --c-primary-container: #ff544b;
+  --c-on-error-container: #410002;
+  --c-inverse-primary: #ffb4ab;
+  --c-on-tertiary: #ffffff;
+  --c-error: #ba1a1a;
+  --c-surface-variant: #e6e2dc;
+  --c-surface-container: #f0ede9;
+  --c-surface-dim: #e2ddd7;
+  --c-primary-fixed: #ffdad6;
+  --c-on-primary: #ffffff;
+  --c-on-secondary-container: #3a2f28;
+  --c-inverse-on-surface: #f5f2ee;
+  --c-background: #f7f5f2;
+  --c-inverse-surface: #2a2622;
+  --c-on-secondary-fixed: #1c1b1b;
+  --c-on-primary-fixed-variant: #93000c;
+  --c-secondary-fixed: #e5e2e1;
+  --c-on-error: #ffffff;
+  --c-tertiary-container: #ffdad6;
+  --c-on-secondary: #ffffff;
+  --c-on-primary-fixed: #410002;
+  --c-on-tertiary-fixed-variant: #930013;
+  --c-on-primary-container: #5c0005;
+  --c-on-background: #17140f;
+  --c-primary-fixed-dim: #ffb4ab;
+  --c-primary: #c7342b;
+  --c-surface-tint: #ff544b;
+  --c-surface-container-low: #f7f5f2;
+  --c-on-tertiary-container: #410002;
+  --c-secondary-container: #ece6de;
+  --c-outline-variant: #d9d0c5;
+  --c-outline: #8a7a6e;
+  --c-surface-container-highest: #d9d4cc;
+  --c-on-surface: #17140f;
+  --c-on-surface-variant: #5c4a40;
+  --c-tertiary-fixed-dim: #ffb3ad;
+  --c-on-secondary-fixed-variant: #474646;
+  --c-tertiary-fixed: #ffdad7;
+
+  /* "Ink" is the one hardcoded shadow/border color used throughout the
+     brutalist offset-shadow treatment: white on dark backgrounds, black on
+     light ones. Components reference var(--ink) directly in arbitrary
+     Tailwind values, e.g. shadow-[3px_3px_0px_var(--ink)]. */
+  --ink: #15120f;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ============ Dark theme ============ */
+.dark {
+  --c-surface-container-high: #282a2b;
+  --c-on-tertiary-fixed: #410004;
+  --c-secondary-fixed-dim: #c9c6c5;
+  --c-tertiary: #ffb3ad;
+  --c-error-container: #93000a;
+  --c-surface-container-lowest: #0c0f0f;
+  --c-surface-bright: #37393a;
+  --c-surface: #121414;
+  --c-secondary: #c9c6c5;
+  --c-primary-container: #ff544b;
+  --c-on-error-container: #ffdad6;
+  --c-inverse-primary: #c00014;
+  --c-on-tertiary: #68000a;
+  --c-error: #ffb4ab;
+  --c-surface-variant: #333535;
+  --c-surface-container: #1e2020;
+  --c-surface-dim: #121414;
+  --c-primary-fixed: #ffdad6;
+  --c-on-primary: #690006;
+  --c-on-secondary-container: #bab8b7;
+  --c-inverse-on-surface: #2f3131;
+  --c-background: #121414;
+  --c-inverse-surface: #e2e2e2;
+  --c-on-secondary-fixed: #1c1b1b;
+  --c-on-primary-fixed-variant: #93000c;
+  --c-secondary-fixed: #e5e2e1;
+  --c-on-error: #690005;
+  --c-tertiary-container: #fe5551;
+  --c-on-secondary: #313030;
+  --c-on-primary-fixed: #410002;
+  --c-on-tertiary-fixed-variant: #930013;
+  --c-on-primary-container: #5c0005;
+  --c-on-background: #e2e2e2;
+  --c-primary-fixed-dim: #ffb4ab;
+  --c-primary: #ffb4ab;
+  --c-surface-tint: #ffb4ab;
+  --c-surface-container-low: #1a1c1c;
+  --c-on-tertiary-container: #5c0008;
+  --c-secondary-container: #4a4949;
+  --c-outline-variant: #5f3f3b;
+  --c-outline: #af8783;
+  --c-surface-container-highest: #333535;
+  --c-on-surface: #e2e2e2;
+  --c-on-surface-variant: #e9bcb7;
+  --c-tertiary-fixed-dim: #ffb3ad;
+  --c-on-secondary-fixed-variant: #474646;
+  --c-tertiary-fixed: #ffdad7;
+
+  --ink: #ffffff;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    overscroll-behavior: none;
+  }
+
+  main > :first-child {
+    margin-top: 0 !important;
+  }
+
+  main > :last-child {
+    margin-bottom: 0 !important;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 24s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
 }
