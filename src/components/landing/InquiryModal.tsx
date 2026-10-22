@@ -34,19 +34,19 @@ export default function InquiryModal({ config, onClose }: { config: InquiryModal
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="w-full max-w-xl bg-surface border-4 border-on-surface shadow-[8px_8px_0px_#ff544b] p-8 relative">
-        <div className="flex items-center justify-between border-b-2 border-surface-container-highest pb-5 mb-7">
-          <div>
+      <div className="w-full max-w-xl max-h-[90vh] overflow-y-auto bg-surface border-4 border-on-surface shadow-[8px_8px_0px_#ff544b] p-5 sm:p-8 relative">
+        <div className="flex items-start justify-between gap-3 border-b-2 border-surface-container-highest pb-5 mb-7">
+          <div className="min-w-0">
             <span className="font-label-sm text-label-sm uppercase text-primary-container font-black">{config.eyebrow}</span>
             <h3
-              className="font-headline-sm text-headline-sm uppercase text-on-surface"
-              style={{ fontFamily: "Teko, sans-serif", fontWeight: 700, letterSpacing: "0.03em", fontSize: "2.25rem", lineHeight: 1 }}
+              className="font-headline-sm uppercase text-on-surface"
+              style={{ fontFamily: "Teko, sans-serif", fontWeight: 700, letterSpacing: "0.03em", fontSize: "clamp(1.6rem, 7vw, 2.25rem)", lineHeight: 1.05 }}
             >
               {config.title}
             </h3>
           </div>
           <button
-            className="w-9 h-9 bg-surface-container-high hover:bg-primary-container hover:text-on-primary-container text-on-surface font-bold flex items-center justify-center border border-on-surface transition-colors"
+            className="shrink-0 w-9 h-9 bg-surface-container-high hover:bg-primary-container hover:text-on-primary-container text-on-surface font-bold flex items-center justify-center border border-on-surface transition-colors"
             onClick={onClose}
             type="button"
           >
@@ -63,7 +63,7 @@ export default function InquiryModal({ config, onClose }: { config: InquiryModal
               type="text"
             />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block font-label-sm text-label-sm uppercase tracking-wider text-on-surface mb-1.5">{config.serviceLabel}</label>
               <select className="w-full px-3 py-2.5 bg-surface-container border-2 border-surface-container-highest focus:border-primary-container text-on-surface font-label-sm text-label-sm outline-none">
@@ -100,10 +100,10 @@ export default function InquiryModal({ config, onClose }: { config: InquiryModal
               ))}
             </div>
           </div>
-          <div className="pt-5 border-t border-surface-container-highest flex items-center justify-between">
+          <div className="pt-5 border-t border-surface-container-highest flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <span className="font-label-sm text-label-sm text-on-surface-variant">{config.etaLabel}</span>
             <button
-              className="px-6 py-2.5 bg-primary-container text-on-primary-container font-label-md text-label-md uppercase font-black border border-on-surface shadow-[3px_3px_0px_var(--ink)] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+              className="w-full sm:w-auto px-6 py-2.5 bg-primary-container text-on-primary-container font-label-md text-label-md uppercase font-black border border-on-surface shadow-[3px_3px_0px_var(--ink)] hover:shadow-none hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
               type="submit"
             >
               {config.submitLabel}

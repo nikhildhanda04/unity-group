@@ -1,9 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { useLenis } from "lenis/react";
 import { useTheme } from "@/components/ThemeProvider";
-import { computeBranchScrollTarget, computeIdScrollTarget } from "./branchAnchors";
+import { computeNavScrollTarget, computeIdScrollTarget } from "./branchAnchors";
 
 const TICKER_ITEMS = [
   { dot: "bg-primary-container", label: "UNITY MOTOR [PROD_LINE_ACTIVE]" },
@@ -22,6 +23,7 @@ const NAV_LINKS = [
 export default function Header() {
   const { theme, toggleTheme } = useTheme();
   const lenis = useLenis();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   function scrollTo(target: number | null) {
     if (target == null) return;
@@ -31,11 +33,13 @@ export default function Header() {
 
   function goToBranch(e: React.MouseEvent, anchorId: string) {
     e.preventDefault();
-    scrollTo(computeBranchScrollTarget(anchorId));
+    setMenuOpen(false);
+    scrollTo(computeNavScrollTarget(anchorId));
   }
 
   function goToId(e: React.MouseEvent, id: string) {
     e.preventDefault();
+    setMenuOpen(false);
     scrollTo(computeIdScrollTarget(id));
   }
 
@@ -56,10 +60,10 @@ export default function Header() {
           </div>
         </div>
       </div>
-      <div className="h-20 w-full px-margin-mobile lg:px-margin flex items-center justify-between gap-space-md">
+      <div className="h-16 sm:h-20 w-full px-margin-mobile lg:px-margin flex items-center justify-between gap-space-sm">
         <div className="flex items-center gap-space-lg">
           <a className="group flex items-center gap-space-xs" href="#overview" onClick={(e) => goToId(e, "overview")}>
-            <span className="relative w-12 h-12 shrink-0 bg-[#0c0f0f] border-2 border-on-surface shadow-[3px_3px_0px_var(--ink)] group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform overflow-hidden">
+            <span className="relative w-10 h-10 sm:w-12 sm:h-12 shrink-0 bg-[#0c0f0f] border-2 border-on-surface shadow-[3px_3px_0px_var(--ink)] group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform overflow-hidden">
               <Image
                 src="/unity-logo.jpeg"
                 alt="Unity Group logo"
@@ -118,18 +122,77 @@ export default function Header() {
             </button>
           </div>
           <a
-            className="flex items-center justify-center px-4 py-2.5 bg-primary-container text-on-primary-container font-label-md text-label-md uppercase tracking-wider border-2 border-on-surface shadow-[3px_3px_0px_var(--ink)] hover:shadow-[3px_3px_0px_#ff544b] hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-none transition-all"
+            className="hidden sm:flex items-center justify-center px-4 py-2.5 bg-primary-container text-on-primary-container font-label-md text-label-md uppercase tracking-wider border-2 border-on-surface shadow-[3px_3px_0px_var(--ink)] hover:shadow-[3px_3px_0px_#ff544b] hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-none transition-all"
             href="#footer"
             onClick={(e) => goToId(e, "footer")}
           >
-            <span className="hidden sm:inline">[ CONTACT HQ ]</span>
-            <span className="sm:hidden">[ CONTACT ]</span>
+            [ CONTACT HQ ]
           </a>
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center border border-on-surface shrink-0">
+          <div className="hidden sm:flex w-8 h-8 rounded-full bg-primary items-center justify-center border border-on-surface shrink-0">
             <span className="material-symbols-outlined text-on-primary text-[18px]">person</span>
           </div>
+          <button
+            className="xl:hidden flex items-center justify-center w-10 h-10 bg-surface-container border-2 border-surface-container-highest text-on-surface shrink-0"
+            type="button"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((v) => !v)}
+          >
+            <span className="material-symbols-outlined">{menuOpen ? "close" : "menu"}</span>
+          </button>
         </div>
       </div>
+
+      {menuOpen && (
+        <nav className="xl:hidden w-full bg-surface-container-lowest border-t-2 border-surface-container-highest px-margin-mobile py-4 flex flex-col gap-1 max-h-[calc(100vh-7rem)] overflow-y-auto">
+          <a
+            className="uppercase px-3 py-3 tracking-wider transition-colors text-primary-container font-bold font-label-md text-label-md border-b border-surface-container-high"
+            href="#overview"
+            onClick={(e) => goToId(e, "overview")}
+          >
+            Overview
+          </a>
+          {NAV_LINKS.map((link) => (
+            <a
+              key={link.path}
+              className="font-label-md text-label-md uppercase px-3 py-3 text-on-surface-variant hover:text-on-surface tracking-wider transition-colors border-b border-surface-container-high"
+              href={`#${link.path}`}
+              onClick={(e) => goToBranch(e, link.path)}
+            >
+              {link.label}
+            </a>
+          ))}
+          <a
+            className="mt-3 flex items-center justify-center px-4 py-3 bg-primary-container text-on-primary-container font-label-md text-label-md uppercase tracking-wider border-2 border-on-surface shadow-[3px_3px_0px_var(--ink)]"
+            href="#footer"
+            onClick={(e) => goToId(e, "footer")}
+          >
+            [ CONTACT HQ ]
+          </a>
+          <div className="mt-3 flex items-center justify-center gap-2 p-1 bg-surface-container border border-surface-container-highest w-fit mx-auto">
+            <button
+              className={`px-4 py-2 font-label-sm text-label-sm uppercase transition-colors ${
+                theme === "light" ? "bg-surface-container-highest text-on-surface font-bold" : "text-on-surface-variant"
+              }`}
+              type="button"
+              aria-pressed={theme === "light"}
+              onClick={() => theme === "dark" && toggleTheme()}
+            >
+              LIGHT
+            </button>
+            <button
+              className={`px-4 py-2 font-label-sm text-label-sm uppercase transition-colors ${
+                theme === "dark" ? "bg-surface-container-highest text-on-surface font-bold" : "text-on-surface-variant"
+              }`}
+              type="button"
+              aria-pressed={theme === "dark"}
+              onClick={() => theme === "light" && toggleTheme()}
+            >
+              DARK
+            </button>
+          </div>
+        </nav>
+      )}
     </header>
   );
 }

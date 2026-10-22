@@ -61,7 +61,7 @@ export default function Hero() {
       </div>
 
       <div className="relative z-10 my-auto py-14 flex flex-col items-center justify-center">
-        <div className="absolute -top-4 left-2 md:left-12 rotate-[-8deg] z-20 transition-transform duration-300 hover:rotate-0 hover:scale-110">
+        <div className="hidden sm:block absolute -top-4 left-2 md:left-12 rotate-[-8deg] z-20 transition-transform duration-300 hover:rotate-0 hover:scale-110">
           <div className="bg-surface-bright text-on-surface px-4 py-2 border-2 border-primary-container shadow-[4px_4px_0px_#ff544b] font-label-md text-label-md uppercase tracking-wider flex items-center gap-2">
             <span className="material-symbols-outlined text-primary-container text-lg">verified</span>
             <span className="flex flex-col leading-none">
@@ -73,7 +73,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="absolute -top-6 right-2 md:right-16 z-20">
+        <div className="hidden sm:block absolute -top-6 right-2 md:right-16 z-20">
           <div className="relative w-28 h-28 flex items-center justify-center group cursor-pointer">
             <svg className="w-full h-full animate-[spin_12s_linear_infinite]" viewBox="0 0 100 100">
               <path d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" fill="none" id="circlePath"></path>
@@ -116,7 +116,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="absolute -bottom-6 left-6 md:left-24 rotate-[6deg] z-20 transition-transform duration-300 hover:rotate-0 hover:scale-110">
+        <div className="hidden sm:block absolute -bottom-6 left-6 md:left-24 rotate-[6deg] z-20 transition-transform duration-300 hover:rotate-0 hover:scale-110">
           <div className="bg-surface-container-high text-on-surface px-4 py-2 border-2 border-on-surface shadow-[4px_4px_0px_var(--ink)] font-label-md text-label-md uppercase tracking-wider flex items-center gap-2">
             <span className="material-symbols-outlined text-primary text-lg">local_fire_department</span>
             <span className="flex flex-col leading-none">
@@ -128,7 +128,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="absolute -bottom-8 right-6 md:right-32 rotate-[-4deg] z-20 transition-transform duration-300 hover:rotate-0 hover:scale-110">
+        <div className="hidden sm:block absolute -bottom-8 right-6 md:right-32 rotate-[-4deg] z-20 transition-transform duration-300 hover:rotate-0 hover:scale-110">
           <div className="bg-primary-container text-on-primary-container px-4 py-2 border-2 border-on-surface shadow-[4px_4px_0px_var(--ink)] font-label-md text-label-md uppercase tracking-wider flex items-center gap-2">
             <span className="material-symbols-outlined text-lg">key</span>
             <span className="flex flex-col leading-none">

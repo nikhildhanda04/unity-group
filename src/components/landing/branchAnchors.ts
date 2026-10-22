@@ -36,3 +36,18 @@ export function computeIdScrollTarget(id: string, headerOffset = 96): number | n
   if (!el) return null;
   return el.getBoundingClientRect().top + window.scrollY - headerOffset;
 }
+
+// Tailwind's `lg` breakpoint — below this, BranchStack renders plain
+// sequential cards instead of the absolute-stacked desktop effect (see
+// BranchStack.tsx), so nav links need a different targeting strategy.
+const LG_BREAKPOINT = 1024;
+
+// Picks the right scroll target for a branch nav link depending on which
+// layout is actually rendered at the current viewport width: the desktop
+// stack (hidden on mobile, so its own geometry can't be trusted there) or
+// the mobile sequential list (a real element with this id in normal flow).
+export function computeNavScrollTarget(anchorId: string): number | null {
+  if (typeof window === "undefined") return null;
+  if (window.innerWidth < LG_BREAKPOINT) return computeIdScrollTarget(anchorId);
+  return computeBranchScrollTarget(anchorId);
+}

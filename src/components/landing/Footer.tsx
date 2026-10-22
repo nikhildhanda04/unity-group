@@ -1,7 +1,7 @@
 "use client";
 
 import { useLenis } from "lenis/react";
-import { computeBranchScrollTarget } from "./branchAnchors";
+import { computeNavScrollTarget } from "./branchAnchors";
 
 const BRANCH_LINKS = [
   { path: "unity-motor", label: "01 // MOTOR" },
@@ -15,7 +15,7 @@ export default function Footer() {
 
   function goToBranch(e: React.MouseEvent, anchorId: string) {
     e.preventDefault();
-    const target = computeBranchScrollTarget(anchorId);
+    const target = computeNavScrollTarget(anchorId);
     if (target == null) return;
     if (lenis) lenis.scrollTo(target, { duration: 1.2 });
     else window.scrollTo({ top: target, behavior: "smooth" });

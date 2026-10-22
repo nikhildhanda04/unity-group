@@ -42,7 +42,10 @@ function StackedCard({
       className="absolute inset-x-0 top-0"
       style={{ y, scale, zIndex: index + 1, transformOrigin: "top center" }}
     >
-      <BranchCard data={data} />
+      {/* id omitted here — this card is duplicated for the desktop-only stack;
+          the real anchor id lives on the mobile sequential copy below so
+          there's exactly one element with that id in the DOM. */}
+      <BranchCard data={data} id={undefined} />
     </motion.div>
   );
 }
@@ -54,15 +57,37 @@ export default function BranchStack() {
   const { scrollYProgress } = useScroll({ target: trackRef, offset: ["start start", "end end"] });
 
   return (
-    <div id={BRANCH_TRACK_ID} ref={trackRef} className="relative w-full bg-surface-container-lowest" style={{ height: `${branches.length * VH_PER_CARD + 60}vh` }}>
-      <div className="sticky top-24 overflow-visible">
-        <div className="relative w-full" style={{ minHeight: 920 + (branches.length - 1) * PEEK_PX }}>
-          {branches.map((data, i) => (
-            <StackedCard key={data.index} data={data} index={i} total={branches.length} progress={scrollYProgress} />
-          ))}
+    <>
+      {/* Mobile/tablet: plain sequential cards in normal document flow. The
+          desktop scroll-hijacking stack effect breaks down below ~lg — each
+          card's content (image + description + actions + CTA + reviews, all
+          in one column) is routinely taller than the viewport, but the
+          sticky-pinned stack has no way to reveal that overflow since further
+          scroll just advances to the next card. Plain stacking sidesteps
+          that entirely and matches how touch users expect to scroll anyway. */}
+      <div className="lg:hidden w-full bg-surface-container-lowest py-12 space-y-16">
+        {branches.map((data) => (
+          <BranchCard key={data.index} data={data} />
+        ))}
+      </div>
+
+      {/* Desktop: the scroll-linked stacking effect. */}
+      <div
+        id={BRANCH_TRACK_ID}
+        ref={trackRef}
+        className="hidden lg:block relative w-full bg-surface-container-lowest"
+        style={{ height: `${branches.length * VH_PER_CARD + 60}vh` }}
+      >
+        <div className="sticky top-24 overflow-visible">
+          <div className="relative w-full" style={{ minHeight: 920 + (branches.length - 1) * PEEK_PX }}>
+            {branches.map((data, i) => (
+              <StackedCard key={data.index} data={data} index={i} total={branches.length} progress={scrollYProgress} />
+            ))}
+          </div>
         </div>
       </div>
+
       <InquiryModal config={activeModal} onClose={() => setActiveModal(null)} />
-    </div>
+    </>
   );
 }

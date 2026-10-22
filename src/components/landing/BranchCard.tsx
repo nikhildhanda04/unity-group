@@ -38,7 +38,7 @@ export type BranchCardData = {
   footerRight: string;
 };
 
-export default function BranchCard({ data }: { data: BranchCardData }) {
+export default function BranchCard({ data, id = data.anchorId }: { data: BranchCardData; id?: string }) {
   const [reviewIdx, setReviewIdx] = useState(0);
   const reviews = data.reviews;
 
@@ -51,26 +51,24 @@ export default function BranchCard({ data }: { data: BranchCardData }) {
   }
 
   return (
-    <section id={data.anchorId} className="relative w-full px-margin-mobile lg:px-margin bg-surface-container-lowest scroll-mt-28">
+    <section id={id} className="relative w-full px-margin-mobile lg:px-margin bg-surface-container-lowest scroll-mt-28">
       <div className="w-full flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
         <div>
-          <div className="flex items-center gap-2 text-primary-container font-label-sm text-label-sm uppercase tracking-widest font-black">
-            <span className="w-3 h-3 bg-primary-container"></span>
-            <span className="flex items-baseline gap-2">
-              <span style={{ fontFamily: "Teko, sans-serif", fontWeight: 700, fontSize: "1.35rem", lineHeight: 1, letterSpacing: "0.04em" }}>
-                {data.eyebrowEn}
-              </span>
-              <span className="text-[10px] normal-case tracking-normal text-on-surface-variant/60 font-sans">{data.eyebrowHi}</span>
+          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-primary-container font-label-sm text-label-sm uppercase tracking-widest font-black">
+            <span className="w-3 h-3 bg-primary-container self-center shrink-0"></span>
+            <span style={{ fontFamily: "Teko, sans-serif", fontWeight: 700, fontSize: "clamp(1rem, 4vw, 1.35rem)", lineHeight: 1.1, letterSpacing: "0.04em" }}>
+              {data.eyebrowEn}
             </span>
+            <span className="text-[10px] normal-case tracking-normal text-on-surface-variant/60 font-sans">{data.eyebrowHi}</span>
           </div>
           <h2
-            className="font-headline-lg text-headline-lg uppercase text-on-surface mt-1.5"
-            style={{ fontFamily: "Teko, sans-serif", fontWeight: 700, letterSpacing: "0.02em", lineHeight: 0.95, fontSize: "4rem" }}
+            className="font-headline-lg uppercase text-on-surface mt-1.5"
+            style={{ fontFamily: "Teko, sans-serif", fontWeight: 700, letterSpacing: "0.02em", lineHeight: 0.95, fontSize: "clamp(2.25rem, 9vw, 4rem)" }}
           >
             {data.title}
           </h2>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <a
             className="flex items-center gap-1.5 font-label-sm text-label-sm uppercase tracking-widest text-on-surface-variant hover:text-primary-container transition-colors group"
             href={data.mapsUrl}
@@ -88,15 +86,15 @@ export default function BranchCard({ data }: { data: BranchCardData }) {
       </div>
 
       <div className="w-full bg-surface-container border-2 border-surface-container-highest shadow-[8px_8px_0px_#ff544b] relative overflow-hidden">
-        <div className="w-full bg-surface-container-high px-6 py-4 border-b-2 border-surface-container-highest flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
-            <span className="px-2 py-0.5 bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase font-black">
+        <div className="w-full bg-surface-container-high px-4 sm:px-6 py-3 sm:py-4 border-b-2 border-surface-container-highest flex flex-wrap items-center justify-between gap-3 sm:gap-4">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+            <span className="px-2 py-0.5 bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase font-black shrink-0">
               {data.bayIdValue}
             </span>
-            <span className="flex items-baseline gap-2">
+            <span className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
               <span
                 className="text-on-surface uppercase tracking-wider font-bold"
-                style={{ fontFamily: "Teko, sans-serif", fontWeight: 700, fontSize: "1.5rem", lineHeight: 1 }}
+                style={{ fontFamily: "Teko, sans-serif", fontWeight: 700, fontSize: "clamp(1.1rem, 4.5vw, 1.5rem)", lineHeight: 1.1 }}
               >
                 {data.subtitleEn}
               </span>
@@ -112,7 +110,7 @@ export default function BranchCard({ data }: { data: BranchCardData }) {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[560px]">
-          <div className="lg:col-span-7 p-7 sm:p-10 relative bg-surface border-b-2 lg:border-b-0 lg:border-r-2 border-surface-container-highest">
+          <div className="lg:col-span-7 p-5 sm:p-10 relative bg-surface border-b-2 lg:border-b-0 lg:border-r-2 border-surface-container-highest">
             <a
               href={data.mapsUrl}
               rel="noopener"
@@ -140,14 +138,14 @@ export default function BranchCard({ data }: { data: BranchCardData }) {
                   {data.isoFigure}
                 </div>
               )}
-              <div className="absolute top-4 left-4 flex flex-col gap-1.5">
+              <div className="absolute top-4 left-4 right-4 flex flex-col items-start gap-1.5">
                 {data.imageTags.map((tag, i) => (
                   <span
                     key={i}
                     className={
                       tag.accent
-                        ? "px-3 py-1 bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase font-black"
-                        : "px-3 py-1 bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm uppercase font-bold border border-surface-container-highest"
+                        ? "max-w-full px-3 py-1 bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase font-black"
+                        : "max-w-full px-3 py-1 bg-surface-container-lowest/90 backdrop-blur-md text-on-surface font-label-sm text-label-sm uppercase font-bold border border-surface-container-highest"
                     }
                   >
                     {tag.text}
@@ -161,7 +159,7 @@ export default function BranchCard({ data }: { data: BranchCardData }) {
             </a>
           </div>
 
-          <div className="lg:col-span-5 p-7 sm:p-10 flex flex-col justify-center bg-surface-container">
+          <div className="lg:col-span-5 p-5 sm:p-10 flex flex-col justify-center bg-surface-container">
             <div className="flex items-center justify-between pb-4 border-b border-surface-container-highest mb-6">
               <span className="font-label-sm text-label-sm uppercase tracking-widest text-primary-container font-black">
                 [ DIRECT ACCESS CONSOLE ]
@@ -193,25 +191,25 @@ export default function BranchCard({ data }: { data: BranchCardData }) {
               {(() => {
                 const CtaInner = (
                   <>
-                    <div className="flex items-center gap-3">
-                      <span className="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform">calendar_month</span>
-                      <div>
+                    <div className="flex items-center gap-3 min-w-0">
+                      <span className="material-symbols-outlined text-2xl shrink-0 group-hover:rotate-12 transition-transform">calendar_month</span>
+                      <div className="min-w-0">
                         <div
-                          className="font-headline-sm text-headline-sm font-black uppercase tracking-tight"
-                          style={{ fontFamily: "Teko, sans-serif", fontWeight: 700, letterSpacing: "0.04em", fontSize: "2rem", lineHeight: 1 }}
+                          className="font-headline-sm font-black uppercase tracking-tight"
+                          style={{ fontFamily: "Teko, sans-serif", fontWeight: 700, letterSpacing: "0.04em", fontSize: "clamp(1.4rem, 6vw, 2rem)", lineHeight: 1.05 }}
                         >
                           {data.cta.titleEn}
                         </div>
                         <div className="font-label-sm text-label-sm uppercase tracking-wider text-on-primary-container/80">{data.cta.sub}</div>
                       </div>
                     </div>
-                    <span className="font-label-md text-label-md uppercase font-black bg-on-primary-container text-primary-container px-3 py-1">
+                    <span className="shrink-0 font-label-md text-label-md uppercase font-black bg-on-primary-container text-primary-container px-3 py-1">
                       {data.cta.tagText}
                     </span>
                   </>
                 );
                 const ctaClass =
-                  "w-full p-5 bg-primary-container text-on-primary-container border-2 border-on-surface shadow-[4px_4px_0px_var(--ink)] hover:shadow-[4px_4px_0px_#ff544b] hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-none transition-all flex items-center justify-between text-left group";
+                  "w-full p-4 sm:p-5 bg-primary-container text-on-primary-container border-2 border-on-surface shadow-[4px_4px_0px_var(--ink)] hover:shadow-[4px_4px_0px_#ff544b] hover:translate-x-0.5 hover:translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-none transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-left group";
                 return data.cta.onClick ? (
                   <button className={ctaClass} type="button" onClick={data.cta.onClick}>
                     {CtaInner}
