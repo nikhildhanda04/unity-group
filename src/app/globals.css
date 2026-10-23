@@ -159,33 +159,33 @@
   --c-surface-bright: #fbf9f9;
   --c-surface: #fbf9f9;
   --c-secondary: #6b6b6b;
-  --c-primary-container: #e82127;
+  --c-primary-container: #bf5700;
   --c-on-error-container: #410002;
-  --c-inverse-primary: #ffb4ac;
+  --c-inverse-primary: #ffb37a;
   --c-on-tertiary: #ffffff;
   --c-error: #ba1a1a;
   --c-surface-variant: #e9e9e9;
   --c-surface-container: #efebea;
   --c-surface-dim: #ddd9d8;
-  --c-primary-fixed: #ffdad6;
+  --c-primary-fixed: #ffdcc2;
   --c-on-primary: #ffffff;
   --c-on-secondary-container: #2b2b2b;
   --c-inverse-on-surface: #f5efee;
   --c-background: #fbf9f9;
   --c-inverse-surface: #313030;
   --c-on-secondary-fixed: #1a1c1c;
-  --c-on-primary-fixed-variant: #93000e;
+  --c-on-primary-fixed-variant: #8c3f00;
   --c-secondary-fixed: #e2e2e2;
   --c-on-error: #ffffff;
   --c-tertiary-container: #c7e7ff;
   --c-on-secondary: #ffffff;
-  --c-on-primary-fixed: #410002;
+  --c-on-primary-fixed: #3a1700;
   --c-on-tertiary-fixed-variant: #004b6f;
   --c-on-primary-container: #ffffff;
   --c-on-background: #1c1b1b;
-  --c-primary-fixed-dim: #ffb4ac;
-  --c-primary: #c00015;
-  --c-surface-tint: #c00015;
+  --c-primary-fixed-dim: #ffb37a;
+  --c-primary: #bf5700;
+  --c-surface-tint: #bf5700;
   --c-surface-container-low: #f5f1f0;
   --c-on-tertiary-container: #001e2f;
   --c-secondary-container: #e9e9e9;
@@ -215,33 +215,33 @@
   --c-surface-bright: #3a3939;
   --c-surface: #131313;
   --c-secondary: #c6c6c7;
-  --c-primary-container: #e82127;
+  --c-primary-container: #bf5700;
   --c-on-error-container: #ffdad6;
-  --c-inverse-primary: #c00015;
+  --c-inverse-primary: #8c3f00;
   --c-on-tertiary: #00344e;
   --c-error: #ffb4ab;
   --c-surface-variant: #353534;
   --c-surface-container: #201f1f;
   --c-surface-dim: #131313;
-  --c-primary-fixed: #ffdad6;
-  --c-on-primary: #690007;
+  --c-primary-fixed: #ffdcc2;
+  --c-on-primary: #3a1700;
   --c-on-secondary-container: #b4b5b5;
   --c-inverse-on-surface: #313030;
   --c-background: #131313;
   --c-inverse-surface: #e5e2e1;
   --c-on-secondary-fixed: #1a1c1c;
-  --c-on-primary-fixed-variant: #93000e;
+  --c-on-primary-fixed-variant: #8c3f00;
   --c-secondary-fixed: #e2e2e2;
   --c-on-error: #690005;
   --c-tertiary-container: #007eb5;
   --c-on-secondary: #2f3131;
-  --c-on-primary-fixed: #410002;
+  --c-on-primary-fixed: #3a1700;
   --c-on-tertiary-fixed-variant: #004b6f;
-  --c-on-primary-container: #140000;
+  --c-on-primary-container: #ffffff;
   --c-on-background: #e5e2e1;
-  --c-primary-fixed-dim: #ffb4ac;
-  --c-primary: #ffb4ac;
-  --c-surface-tint: #ffb4ac;
+  --c-primary-fixed-dim: #ffb37a;
+  --c-primary: #ff9d5c;
+  --c-surface-tint: #ff9d5c;
   --c-surface-container-low: #1c1b1b;
   --c-on-tertiary-container: #ffffff;
   --c-secondary-container: #454747;
@@ -262,6 +262,14 @@
   body {
     margin: 0;
     padding: 0;
+    /* Defense-in-depth: a single overflowing element anywhere on the page
+       (e.g. a long heading at a large clamp() size on a narrow phone) can
+       widen the whole document past the viewport, which some mobile
+       browsers then use as the containing block for `position: fixed`
+       elements — throwing off anything meant to be centered on the
+       viewport (like the splash screen). Fix overflow at the source when
+       you find it, but keep this as a backstop. */
+    overflow-x: hidden;
   }
 
   body {
@@ -281,21 +289,12 @@
   }
 }
 
-@keyframes marquee {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
+@keyframes slow-spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
-.animate-marquee {
-  display: flex;
-  width: max-content;
-  animation: marquee 24s linear infinite;
-}
-
-.animate-marquee:hover {
-  animation-play-state: paused;
+.animate-slow-spin {
+  animation: slow-spin 40s linear infinite;
 }

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider, THEME_INIT_SCRIPT } from "@/components/ThemeProvider";
 import SmoothScroll from "@/components/SmoothScroll";
+import SplashScreen from "@/components/SplashScreen";
+import { SplashProvider } from "@/components/SplashContext";
 
 export const metadata: Metadata = {
   title: "UNITY // HOLDING GROUP",
@@ -28,9 +30,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         suppressHydrationWarning
         className="bg-surface-container-lowest text-on-surface font-body-md text-body-md selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col justify-between transition-colors duration-300"
       >
-        <ThemeProvider>
-          <SmoothScroll>{children}</SmoothScroll>
-        </ThemeProvider>
+        <SplashProvider>
+          <SplashScreen />
+          <ThemeProvider>
+            <SmoothScroll>{children}</SmoothScroll>
+          </ThemeProvider>
+        </SplashProvider>
       </body>
     </html>
   );
