@@ -17,7 +17,12 @@ export type BranchCardData = {
   secondaryLinks: SecondaryLink[];
 };
 
-export default function BranchCard({ data, id = data.anchorId }: { data: BranchCardData; id?: string }) {
+// `id` has no default here on purpose: explicit `id={undefined}` from a
+// caller (the desktop stacked copy, which must NOT get a real id since the
+// mobile sequential copy already owns the one real `#anchorId` in the DOM)
+// must stay undefined. A default parameter triggers on `undefined` too, so
+// `id = data.anchorId` would silently defeat that and duplicate the id.
+export default function BranchCard({ data, id }: { data: BranchCardData; id?: string }) {
   return (
     <section id={id} className="relative w-full px-margin-mobile lg:px-margin bg-surface-container-lowest scroll-mt-28">
       <div className="w-full flex flex-wrap items-end justify-between gap-x-4 gap-y-2 mb-6">

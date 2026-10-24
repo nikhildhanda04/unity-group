@@ -72,7 +72,7 @@ export default function BranchStack() {
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            <BranchCard data={data} />
+            <BranchCard data={data} id={data.anchorId} />
           </motion.div>
         ))}
       </div>
