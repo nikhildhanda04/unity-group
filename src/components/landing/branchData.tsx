@@ -85,7 +85,7 @@ export function buildBranchData(): BranchCardData[] {
     {
       index: "04",
       anchorId: "bhatia-homoeopathics",
-      title: "DR. BHATIA HOMOEOPATHY",
+      title: "DR. BHATIA'S HOMOEOPATHY",
       mapsUrl: BHATIA_MAPS_URL,
       statusTag: "Open Now",
       image: {
