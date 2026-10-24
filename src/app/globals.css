@@ -262,13 +262,24 @@
   body {
     margin: 0;
     padding: 0;
-    /* Defense-in-depth: a single overflowing element anywhere on the page
-       (e.g. a long heading at a large clamp() size on a narrow phone) can
-       widen the whole document past the viewport, which some mobile
-       browsers then use as the containing block for `position: fixed`
-       elements — throwing off anything meant to be centered on the
-       viewport (like the splash screen). Fix overflow at the source when
-       you find it, but keep this as a backstop. */
+  }
+
+  /* Defense-in-depth: a single overflowing element anywhere on the page
+     (e.g. a long heading at a large clamp() size on a narrow phone) can
+     widen the whole document past the viewport, which some mobile
+     browsers then use as the containing block for `position: fixed`
+     elements — throwing off anything meant to be centered on the
+     viewport (like the splash screen). Fix overflow at the source when
+     you find it, but keep this as a backstop.
+
+     html ONLY — never add `body` here. html's overflow propagates to the
+     viewport and html itself stays a non-scroll-container, but a `body`
+     with overflow-x:hidden computes overflow-y:auto and becomes a real
+     scroll container, which kills every `position: sticky` descendant
+     (the BranchStack card stack). This only showed up in production
+     builds: Tailwind's turbopack dev pipeline drops this @layer base
+     block entirely, so dev never had the bug. */
+  html {
     overflow-x: hidden;
   }
 
