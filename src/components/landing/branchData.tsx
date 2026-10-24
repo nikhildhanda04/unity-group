@@ -84,15 +84,15 @@ export function buildBranchData(): BranchCardData[] {
     },
     {
       index: "04",
-      anchorId: "bhatia-homeopathics",
-      title: "DR. BHATIA HOMEOPATHICS",
+      anchorId: "bhatia-homoeopathics",
+      title: "DR. BHATIA HOMOEOPATHY",
       mapsUrl: BHATIA_MAPS_URL,
       statusTag: "Open Now",
       image: {
         src: "/bhatia-homeopathics-ai.png",
-        alt: "Homeopathic clinic desk with remedies and botanical notebook",
+        alt: "Homoeopathic clinic desk with remedies and botanical notebook",
       },
-      description: "Homeopathic consultation and care.",
+      description: "Homoeopathic consultation and care.",
       cta: { label: "Call to Book", icon: "call", href: BHATIA_CALL_URL },
       secondaryLinks: [
         { icon: "location_on", label: "Directions", href: BHATIA_MAPS_URL },

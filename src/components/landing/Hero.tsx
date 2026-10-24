@@ -21,7 +21,7 @@ const EASE_OUT = [0.16, 1, 0.3, 1] as const;
 //   { src: "/unity-motors-ai.png", alt: "Unity Motors", angle: -20, distance: 1.05, size: 1.15 },
 //   { src: "/unity-carhub-ai.png", alt: "Unity CarHub", angle: 52, distance: 0.82, size: 0.85 },
 //   { src: "/shawarma-cartel-ai.png", alt: "Shawarma Cartel", angle: 128, distance: 1.1, size: 1 },
-//   { src: "/bhatia-homeopathics-ai.png", alt: "Dr. Bhatia Homeopathics", angle: 202, distance: 0.88, size: 0.9 },
+//   { src: "/bhatia-homeopathics-ai.png", alt: "Dr. Bhatia Homoeopathy", angle: 202, distance: 0.88, size: 0.9 },
 //   { src: "/unity-tech-ai.png", alt: "Unity Tech", angle: 278, distance: 1, size: 1.05 },
 // ];
 //

@@ -12,7 +12,7 @@ const BRANCH_LINKS = [
   { path: "unity-motor", label: "Unity Motor" },
   { path: "unity-carhub", label: "Unity CarHub" },
   { path: "shawarma-cartel", label: "Shawarma Cartel" },
-  { path: "bhatia-homeopathics", label: "Dr. Bhatia Homeopathics" },
+  { path: "bhatia-homoeopathics", label: "Dr. Bhatia Homoeopathy" },
   { path: "unity-tech", label: "Unity Tech" },
 ];
 
